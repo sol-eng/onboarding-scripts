@@ -38,10 +38,6 @@ WORKBENCH_DEB_DIST="jammy"
 PRO_DRIVERS_VERSION_DEB="2025.07.0" 
 PRO_DRIVERS_INSTALLER_ID="7C152C12" 
 
-# ----------------------------
-# Behavior toggles
-# ----------------------------
-
 
 # ----------------------------
 # Constants (Ubuntu 24.04)
@@ -89,7 +85,6 @@ quarto_asset_arch() {
   esac
 }
 
-# Ubuntu-specific: apt-get cannot install local .deb paths reliably.
 # Use `apt install ./file.deb` (supports local paths), and fall back to dpkg if needed.
 install_local_deb() {
   local deb_path="$1"
@@ -237,7 +232,7 @@ install_workbench() {
   log "Installing Posit Workbench ${WORKBENCH_VERSION}..."
 
   # Docs show Ubuntu/Debian download format:
-  # https://download2.rstudio.org/server/jammy/amd64/rstudio-workbench-2025.09.2-amd64.deb :contentReference[oaicite:4]{index=4}
+  # https://download2.rstudio.org/server/jammy/amd64/rstudio-workbench-2025.09.2-amd64.deb 
   local deb="rstudio-workbench-${WORKBENCH_VERSION}-${arch}.deb"
   local url="https://download2.rstudio.org/server/${WORKBENCH_DEB_DIST}/${arch}/${deb}"
 
@@ -337,6 +332,7 @@ main() {
   log "Python: /opt/python/<version>"
   log "Quarto: /opt/quarto/<version>"
   log "Workbench: http://<host>:8787"
+  log "ODBC drivers: odbcinst -q -d"
 }
 
 main "$@"
