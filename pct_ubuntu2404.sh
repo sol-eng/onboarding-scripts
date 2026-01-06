@@ -14,7 +14,6 @@ set -euo pipefail
 # Versions (EDIT THESE)
 # ----------------------------
 
-# Install ALL versions listed here
 R_VERSIONS=(
   "4.5.2"
   "4.4.3"
@@ -30,24 +29,21 @@ QUARTO_VERSIONS=(
   "1.7.12"
 )
 
-# Posit Connect version (pin this; series is derived automatically)
+# Posit Connect version 
 CONNECT_VERSION="2025.12.1"
 CONNECT_UBUNTU_TAG="ubuntu24"
 
 # Pro Drivers version
-PRO_DRIVERS_VERSION_DEB="2025.07.0" # package name: rstudio-drivers_${VER}_<arch>.deb
-PRO_DRIVERS_INSTALLER_ID="7C152C12" # in the download URL
+PRO_DRIVERS_VERSION_DEB="2025.07.0" 
+PRO_DRIVERS_INSTALLER_ID="7C152C12" 
 
-# ----------------------------
-# Behavior toggles
-# ----------------------------
-CREATE_R_SYMLINKS=true         # only if /usr/local/bin/R doesn't exist
-CREATE_QUARTO_SYMLINK=true     # only if /usr/local/bin/quarto doesn't exist
-CREATE_PYTHON_PROFILED=true    # write /etc/profile.d/python.sh pointing to first python version
 
 # ----------------------------
 # Constants (Ubuntu 24.04)
 # ----------------------------
+CREATE_R_SYMLINKS=true         
+CREATE_QUARTO_SYMLINK=true     
+CREATE_PYTHON_PROFILED=true   
 UBUNTU_R_BASE_URL="https://cdn.posit.co/r/ubuntu-2404/pkgs"
 
 UV_INSTALL_DIR="/usr/local/bin"
@@ -88,7 +84,6 @@ quarto_asset_arch() {
   esac
 }
 
-# Ubuntu-specific: apt-get cannot install local .deb paths reliably.
 # Use `apt install ./file.deb` (supports local paths), and fall back to dpkg if needed.
 install_local_deb() {
   local deb_path="$1"
@@ -345,6 +340,8 @@ main() {
   log "Python: /opt/python/<version>"
   log "Quarto: /opt/quarto/<version>"
   log "Connect: http://<host>:3939"
+  log "ODBC drivers: odbcinst -q -d"
+
 }
 
 main "$@"

@@ -31,24 +31,24 @@ QUARTO_VERSIONS=(
 )
 
 # Posit Workbench version (pin this)
-# Docs show: curl -O https://download2.rstudio.org/server/jammy/amd64/rstudio-workbench-2025.09.2-amd64.deb :contentReference[oaicite:2]{index=2}
 WORKBENCH_VERSION="2025.09.2"
-WORKBENCH_DEB_DIST="jammy"  # docs currently use "jammy" for Ubuntu/Debian downloads :contentReference[oaicite:3]{index=3}
+WORKBENCH_DEB_DIST="jammy"  
 
 # Pro Drivers version
-PRO_DRIVERS_VERSION_DEB="2025.07.0" # package name: rstudio-drivers_${VER}_<arch>.deb
-PRO_DRIVERS_INSTALLER_ID="7C152C12" # in the download URL
+PRO_DRIVERS_VERSION_DEB="2025.07.0" 
+PRO_DRIVERS_INSTALLER_ID="7C152C12" 
 
 # ----------------------------
 # Behavior toggles
 # ----------------------------
-CREATE_R_SYMLINKS=true         # only if /usr/local/bin/R doesn't exist
-CREATE_QUARTO_SYMLINK=true     # only if /usr/local/bin/quarto doesn't exist
-CREATE_PYTHON_PROFILED=true    # write /etc/profile.d/python.sh pointing to first python version
+
 
 # ----------------------------
 # Constants (Ubuntu 24.04)
 # ----------------------------
+CREATE_R_SYMLINKS=true         
+CREATE_QUARTO_SYMLINK=true     
+CREATE_PYTHON_PROFILED=true    
 UBUNTU_R_BASE_URL="https://cdn.posit.co/r/ubuntu-2404/pkgs"
 
 UV_INSTALL_DIR="/usr/local/bin"

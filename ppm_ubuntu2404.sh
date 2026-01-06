@@ -34,17 +34,14 @@ PPM_VERSION="2025.12.0-14"
 # Pro Drivers version
 PRO_DRIVERS_VERSION_DEB="2025.07.0" 
 PRO_DRIVERS_INSTALLER_ID="7C152C12" 
-
-# ----------------------------
-# Behavior toggles
-# ----------------------------
-CREATE_R_SYMLINKS=true         
-CREATE_QUARTO_SYMLINK=true     
-CREATE_PYTHON_PROFILED=true    
+ 
 
 # ----------------------------
 # Constants (Ubuntu 24.04)
 # ----------------------------
+CREATE_R_SYMLINKS=true         
+CREATE_QUARTO_SYMLINK=true     
+CREATE_PYTHON_PROFILED=true   
 UBUNTU_R_BASE_URL="https://cdn.posit.co/r/ubuntu-2404/pkgs"
 PPM_BASE_URL="https://dl.posit.co/public/pro/deb/ubuntu/pool/noble/main/r/rs"
 
@@ -86,7 +83,6 @@ quarto_asset_arch() {
   esac
 }
 
-# Ubuntu-specific: apt-get cannot install local .deb paths reliably.
 # Use `apt install ./file.deb` (supports local paths), and fall back to dpkg if needed.
 install_local_deb() {
   local deb_path="$1"
@@ -215,6 +211,30 @@ install_ppm() {
   systemctl --no-pager --full status rstudio-pm || true
 }
 
+smoke_tests() {
+  log "Running quick smoke tests..."
+
+  log "R versions:"
+  for v in "${R_VERSIONS[@]}"; do
+    "/opt/R/${v}/bin/R" --version | head -n 2
+  done
+
+  log "Python versions:"
+  for v in "${PYTHON_VERSIONS[@]}"; do
+    "${PYTHON_INSTALL_ROOT}/${v}/bin/python" --version
+  done
+
+
+  log "Package Manager service + listener (default port 4242):"
+  systemctl is-active rstudio-pm || true
+  ss -lntp | grep 4242 || true
+
+  log "Connect HTTP check (local):"
+  curl -sS -o /dev/null -w "HTTP %{http_code}\n" http://127.0.0.1:4242/ || true
+
+  log "Smoke tests complete."
+}
+
 main() {
   require_root
   local arch
@@ -226,10 +246,13 @@ main() {
   install_uv
   install_python_versions
   install_ppm "$arch"
+  
+  smoke_tests
 
   log "DONE."
-  log "R installed in /opt/R/<version>; Python in /opt/python/<version>"
-  log "PPM default URL will be http://<host>:4242 (unless configured otherwise)."
+  log "R: /opt/R/<version>"
+  log "Python: /opt/python/<version>"
+  log "Package Manager: http://<host>:4242"
 }
 
 main "$@"
