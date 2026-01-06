@@ -5,9 +5,7 @@ set -euo pipefail
 # Posit Package Manager base install (Ubuntu 24.04)
 # - R (multi-version)
 # - Python via uv (multi-version)
-# - Quarto (multi-version)
 # - Posit Package Manager (PPM)
-# - Posit Pro Drivers (ODBC)
 ################################################################################
 
 # ----------------------------
